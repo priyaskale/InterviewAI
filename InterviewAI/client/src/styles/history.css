@@ -1,0 +1,260 @@
+.history-page {
+  min-height: 100vh;
+  background: #0f0f10;
+  color: #f5f5f5;
+}
+
+.history-topbar {
+  height: 72px;
+  padding: 0 40px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  border-bottom: 1px solid #252529;
+}
+
+.history-back-button {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  background: transparent;
+  color: #b8b8bd;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.history-back-button:hover {
+  color: #ffffff;
+}
+
+.history-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 700;
+}
+
+.history-brand-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ff8a00;
+  color: #111111;
+}
+
+.history-main {
+  width: min(1100px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 56px 0 80px;
+}
+
+.history-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 34px;
+}
+
+.history-eyebrow {
+  color: #ff9b32;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.history-heading h1 {
+  margin: 8px 0 8px;
+  font-size: 38px;
+  line-height: 1.1;
+}
+
+.history-heading p {
+  margin: 0;
+  color: #99999f;
+  font-size: 15px;
+}
+
+.history-performance-button,
+.history-start-button,
+.history-retry-button {
+  border: 0;
+  border-radius: 10px;
+  background: #ff8a00;
+  color: #111111;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.history-performance-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 17px;
+  white-space: nowrap;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px;
+  border: 1px solid #27272c;
+  border-radius: 16px;
+  background: #171719;
+}
+
+.history-card-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: #202024;
+  color: #ff9b32;
+}
+
+.history-card-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.history-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.history-card-title h2 {
+  margin: 0;
+  font-size: 17px;
+}
+
+.history-status {
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.history-status.completed {
+  background: rgba(68, 190, 110, 0.12);
+  color: #66d391;
+}
+
+.history-status.progress {
+  background: rgba(255, 166, 64, 0.12);
+  color: #ffad4d;
+}
+
+.history-card-meta {
+  display: flex;
+  gap: 7px;
+  margin-top: 7px;
+  color: #9a9a9f;
+  font-size: 13px;
+}
+
+.history-card-content small {
+  display: block;
+  margin-top: 7px;
+  color: #66666c;
+}
+
+.history-score {
+  min-width: 70px;
+  text-align: right;
+}
+
+.history-score span {
+  display: block;
+  color: #77777d;
+  font-size: 11px;
+}
+
+.history-score strong {
+  font-size: 24px;
+}
+
+.history-score small {
+  color: #77777d;
+}
+
+.history-empty-card {
+  min-height: 300px;
+  padding: 50px 30px;
+  border: 1px solid #27272c;
+  border-radius: 18px;
+  background: #171719;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #77777d;
+}
+
+.history-empty-card h3 {
+  margin: 16px 0 6px;
+  color: #eeeeee;
+  font-size: 19px;
+}
+
+.history-empty-card p {
+  max-width: 430px;
+  margin: 0 0 20px;
+  line-height: 1.6;
+}
+
+.history-start-button,
+.history-retry-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 16px;
+}
+
+@media (max-width: 700px) {
+  .history-topbar {
+    padding: 0 18px;
+  }
+
+  .history-main {
+    width: min(100% - 28px, 1100px);
+    padding-top: 35px;
+  }
+
+  .history-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .history-heading h1 {
+    font-size: 30px;
+  }
+
+  .history-card {
+    align-items: flex-start;
+  }
+
+  .history-score {
+    min-width: 55px;
+  }
+
+  .history-card-meta {
+    flex-wrap: wrap;
+  }
+}
