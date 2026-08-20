@@ -1,22 +1,23 @@
 .profile-page {
   min-height: 100vh;
   background: #f7f8fc;
-  color: #171a24;
+  color: #172033;
 }
 
-/* Top navigation */
+/* Topbar */
 
 .profile-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
   height: 72px;
+  box-sizing: border-box;
   padding: 0 32px;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   background: #ffffff;
-  border-bottom: 1px solid #e9ebf2;
-  position: sticky;
-  top: 0;
-  z-index: 20;
+  border-bottom: 1px solid #e8eaf0;
 }
 
 .profile-back-button {
@@ -26,35 +27,35 @@
   gap: 8px;
   padding: 8px 0;
   border: 0;
-  background: transparent;
   color: #687184;
-  font-size: 14px;
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
 }
 
 .profile-back-button:hover {
-  color: #171a24;
+  color: #5758d9;
 }
 
 .profile-brand {
   display: flex;
   align-items: center;
   gap: 9px;
-  color: #171a24;
+  color: #172033;
   font-size: 17px;
   font-weight: 700;
 }
 
 .profile-brand-icon {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
   border-radius: 10px;
-  background: #171a24;
   color: #ffffff;
+  background: #5758d9;
 }
 
 /* Main */
@@ -71,7 +72,7 @@
 
 .profile-eyebrow {
   display: inline-block;
-  color: #858d9e;
+  color: #5758d9;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.12em;
@@ -79,7 +80,7 @@
 
 .profile-heading h1 {
   margin: 8px 0 7px;
-  color: #171a24;
+  color: #172033;
   font-size: 34px;
   line-height: 1.15;
   font-weight: 750;
@@ -97,9 +98,9 @@
 
 .profile-card {
   padding: 28px;
-  background: #ffffff;
   border: 1px solid #e7e9ef;
-  border-radius: 20px;
+  border-radius: 18px;
+  background: #ffffff;
   box-shadow: 0 8px 28px rgba(25, 30, 45, 0.04);
 }
 
@@ -115,12 +116,11 @@
   width: 76px;
   height: 76px;
   flex: 0 0 76px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   border-radius: 20px;
-  background: #171a24;
-  color: #ffffff;
+  color: #5758d9;
+  background: #eeeeff;
   font-size: 28px;
   font-weight: 750;
 }
@@ -131,7 +131,7 @@
 
 .profile-user-info h2 {
   margin: 0 0 5px;
-  color: #171a24;
+  color: #172033;
   font-size: 22px;
   line-height: 1.25;
   font-weight: 750;
@@ -154,7 +154,7 @@
 }
 
 .profile-section-title span {
-  color: #858d9e;
+  color: #8b92a1;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -196,10 +196,10 @@
   box-sizing: border-box;
   padding: 12px 13px;
   border: 1px solid #dfe2e9;
-  border-radius: 11px;
+  border-radius: 10px;
   outline: none;
-  background: #ffffff;
   color: #242936;
+  background: #ffffff;
   font-family: inherit;
   font-size: 14px;
   transition:
@@ -215,15 +215,15 @@
 .profile-field input:focus,
 .profile-field textarea:focus,
 .profile-field select:focus {
-  border-color: #8c93a1;
-  box-shadow: 0 0 0 3px rgba(80, 88, 105, 0.08);
+  border-color: #7778e5;
+  box-shadow: 0 0 0 3px #eeeeff;
 }
 
 .profile-field input:disabled,
 .profile-field textarea:disabled,
 .profile-field select:disabled {
-  background: #f6f7f9;
   color: #7c8492;
+  background: #f6f7f9;
   cursor: not-allowed;
 }
 
@@ -248,9 +248,9 @@
 
 .profile-account-item {
   padding: 17px;
-  background: #f8f9fb;
   border: 1px solid #ececf1;
   border-radius: 14px;
+  background: #f8f9fb;
 }
 
 .profile-account-item span {
@@ -292,7 +292,7 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border-radius: 11px;
+  border-radius: 10px;
   font-family: inherit;
   font-size: 13px;
   font-weight: 700;
@@ -304,21 +304,22 @@
 }
 
 .profile-save-button {
-  border: 1px solid #171a24;
-  background: #171a24;
+  border: 1px solid #5758d9;
   color: #ffffff;
+  background: #5758d9;
+  box-shadow: 0 5px 14px rgba(87, 88, 217, 0.15);
 }
 
 .profile-save-button:hover {
   transform: translateY(-1px);
-  border-color: #292e3a;
-  background: #292e3a;
+  border-color: #4d4ed0;
+  background: #4d4ed0;
 }
 
 .profile-cancel-button {
   border: 1px solid #dfe2e9;
-  background: #ffffff;
   color: #4f586b;
+  background: #ffffff;
 }
 
 .profile-cancel-button:hover {
@@ -328,8 +329,8 @@
 
 .profile-logout-button {
   border: 1px solid #e1d9d9;
-  background: #ffffff;
   color: #8b6262;
+  background: #ffffff;
 }
 
 .profile-logout-button:hover {
@@ -339,26 +340,25 @@
 
 /* Messages */
 
-.profile-success {
+.profile-success,
+.profile-error {
   margin-top: 18px;
   padding: 12px 14px;
-  border: 1px solid #dce8df;
   border-radius: 11px;
-  background: #f5faf6;
-  color: #4e7259;
   font-size: 13px;
   line-height: 1.5;
 }
 
+.profile-success {
+  border: 1px solid #dce8df;
+  color: #4e7259;
+  background: #f5faf6;
+}
+
 .profile-error {
-  margin-top: 18px;
-  padding: 12px 14px;
   border: 1px solid #eadcdc;
-  border-radius: 11px;
-  background: #fcf7f7;
   color: #8c5f5f;
-  font-size: 13px;
-  line-height: 1.5;
+  background: #fcf7f7;
 }
 
 /* Loading */
@@ -368,8 +368,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f7f8fc;
   color: #737b8c;
+  background: #f7f8fc;
 }
 
 .profile-loading-content {
@@ -383,11 +383,12 @@
   width: 28px;
   height: 28px;
   border: 3px solid #e1e4eb;
-  border-top: 3px solid #171a24;
+  border-top-color: #5758d9;
   border-radius: 50%;
   animation: profile-spin 0.8s linear infinite;
 }
- .profile-loading-content p {
+
+.profile-loading-content p {
   margin: 0;
   font-size: 14px;
 }
@@ -398,14 +399,15 @@
   }
 }
 
-/* Mobile */
+/* Responsive */
 
 @media (max-width: 700px) {
   .profile-topbar {
     height: 64px;
     padding: 0 18px;
   }
-.profile-main {
+
+  .profile-main {
     width: calc(100% - 24px);
     padding: 30px 0 50px;
   }
@@ -433,6 +435,7 @@
   .profile-user-info h2 {
     font-size: 19px;
   }
+
   .profile-fields {
     grid-template-columns: 1fr;
   }
@@ -455,9 +458,9 @@
     width: 100%;
   }
 }
+
 @media (max-width: 430px) {
   .profile-topbar {
-    grid-template-columns: 1fr auto 1fr;
     padding: 0 14px;
   }
 
@@ -490,4 +493,3 @@
     font-size: 20px;
   }
 }
-
