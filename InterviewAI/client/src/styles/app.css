@@ -8,15 +8,16 @@
 
 .sidebar {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0 auto 0 0;
   width: 250px;
   height: 100vh;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   padding: 26px 18px;
   background: #ffffff;
   border-right: 1px solid #e8eaf0;
+  z-index: 20;
 }
 
 .brand {
@@ -35,9 +36,10 @@
   height: 36px;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
   border-radius: 10px;
   color: #ffffff;
-  background: #5b5ce2;
+  background: #5758d9;
 }
 
 .sidebar-nav {
@@ -58,17 +60,27 @@
 }
 
 .nav-item {
+  width: 100%;
+  height: 45px;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   gap: 12px;
-  height: 45px;
   padding: 0 12px;
   margin-bottom: 5px;
+  border: 0;
   border-radius: 9px;
   color: #737b8d;
+  background: transparent;
+  font-family: inherit;
   font-size: 14px;
   font-weight: 550;
-  transition: 0.2s ease;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background 0.2s ease;
 }
 
 .nav-item:hover {
@@ -91,23 +103,32 @@
   align-items: center;
   gap: 12px;
   padding: 12px;
+  border: 0;
+  border-radius: 9px;
   color: #7b8292;
   background: transparent;
-  border-radius: 9px;
+  font-family: inherit;
   font-size: 14px;
+  text-align: left;
+  cursor: pointer;
 }
 
 .logout-button:hover {
   background: #f5f6fa;
+  color: #3e4351;
 }
 
 /* Main */
 
 .main-content {
   width: calc(100% - 250px);
+  min-height: 100vh;
+  box-sizing: border-box;
   margin-left: 250px;
   padding: 32px 48px 60px;
 }
+
+/* Topbar */
 
 .topbar {
   display: flex;
@@ -125,6 +146,7 @@
 }
 
 .topbar h1 {
+  margin: 0;
   color: #172033;
   font-size: 27px;
   font-weight: 700;
@@ -142,6 +164,7 @@
   height: 40px;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
   border-radius: 50%;
   color: #5152d7;
   background: #eeeeff;
@@ -155,6 +178,7 @@
 }
 
 .profile-info strong {
+  color: #242a39;
   font-size: 13px;
 }
 
@@ -167,6 +191,7 @@
 
 .hero-card {
   min-height: 310px;
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -196,6 +221,7 @@
 }
 
 .hero-card h2 {
+  margin: 0;
   color: #151b2c;
   font-size: 38px;
   line-height: 1.13;
@@ -215,13 +241,19 @@
   align-items: center;
   gap: 8px;
   padding: 12px 17px;
+  border: 0;
   border-radius: 9px;
-  color: white;
+  color: #ffffff;
   background: #5758d9;
+  font-family: inherit;
   font-size: 13px;
   font-weight: 650;
+  text-decoration: none;
+  cursor: pointer;
   box-shadow: 0 5px 14px rgba(87, 88, 217, 0.18);
-  transition: 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease;
 }
 
 .primary-button:hover {
@@ -234,6 +266,7 @@
   height: 230px;
   display: grid;
   place-items: center;
+  flex-shrink: 0;
   border-radius: 50%;
   background: #e7e7ff;
 }
@@ -259,16 +292,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 20px;
   margin-bottom: 17px;
 }
 
 .section-header h3 {
-  margin-bottom: 4px;
+  margin: 0 0 4px;
   color: #1a2030;
   font-size: 17px;
 }
 
 .section-header p {
+  margin: 0;
   color: #9299a8;
   font-size: 12px;
 }
@@ -277,10 +312,14 @@
   display: flex;
   align-items: center;
   gap: 5px;
+  padding: 0;
+  border: 0;
   color: #5758d9;
   background: transparent;
+  font-family: inherit;
   font-size: 12px;
   font-weight: 650;
+  cursor: pointer;
 }
 
 /* Stats */
@@ -296,6 +335,7 @@
   border: 1px solid #e8e9ef;
   border-radius: 14px;
   background: #ffffff;
+  box-shadow: 0 5px 20px rgba(25, 32, 55, 0.025);
 }
 
 .stat-label {
@@ -328,6 +368,7 @@
   border: 1px solid #e8e9ef;
   border-radius: 14px;
   background: #ffffff;
+  box-shadow: 0 5px 20px rgba(25, 32, 55, 0.025);
 }
 
 .interview-icon {
@@ -342,6 +383,7 @@
 }
 
 .interview-details {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 5px;
