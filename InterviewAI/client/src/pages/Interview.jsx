@@ -361,170 +361,165 @@ if (!data.success) {
    * SAVE INTERVIEW PROGRESS
    */
   const saveInterviewProgress =
-    useCallback(
-      async (updatedEvaluations) => {
-        const currentInterviewId =
-          interviewIdRef.current;
+  useCallback(
+    async (updatedEvaluations) => {
+      const currentInterviewId =
+        interviewIdRef.current;
 
-        if (!currentInterviewId) {
-          console.warn(
-            "No interview ID available."
+      if (!currentInterviewId) {
+        console.warn(
+          "No interview ID available."
+        );
+
+        return false;
+      }
+
+      try {
+        const completed =
+          updatedEvaluations.length;
+
+        const totals =
+          updatedEvaluations.reduce(
+            (result, item) => {
+              const itemEvaluation =
+                item?.evaluation || {};
+
+              result.score +=
+                Number(
+                  itemEvaluation.score
+                ) || 0;
+
+              result.correctness +=
+                Number(
+                  itemEvaluation.correctness
+                ) || 0;
+
+              result.relevance +=
+                Number(
+                  itemEvaluation.relevance
+                ) || 0;
+
+              result.clarity +=
+                Number(
+                  itemEvaluation.clarity
+                ) || 0;
+
+              result.technicalDepth +=
+                Number(
+                  itemEvaluation.technicalDepth
+                ) || 0;
+
+              return result;
+            },
+            {
+              score: 0,
+              correctness: 0,
+              relevance: 0,
+              clarity: 0,
+              technicalDepth: 0,
+            }
+          );
+
+        const average = (value) => {
+          if (!completed) {
+            return 0;
+          }
+
+          return Number(
+            (
+              value / completed
+            ).toFixed(1)
+          );
+        };
+
+        const authUser =
+          await getAuthenticatedUser();
+
+        if (!authUser?.id) {
+          console.error(
+            "Cannot save progress: user not authenticated."
           );
 
           return false;
         }
 
-        try {
-          const completed =
-            updatedEvaluations.length;
+        const updatePayload = {
+          completed_questions:
+            completed,
 
-          const totals =
-            updatedEvaluations.reduce(
-              (result, item) => {
-                const itemEvaluation =
-                  item?.evaluation || {};
+          overall_score:
+            average(
+              totals.score
+            ),
 
-                result.score +=
-                  Number(
-                    itemEvaluation.score
-                  ) || 0;
+          correctness_score:
+            average(
+              totals.correctness
+            ),
 
-                result.correctness +=
-                  Number(
-                    itemEvaluation.correctness
-                  ) || 0;
+          relevance_score:
+            average(
+              totals.relevance
+            ),
 
-                result.relevance +=
-                  Number(
-                    itemEvaluation.relevance
-                  ) || 0;
+          clarity_score:
+            average(
+              totals.clarity
+            ),
 
-                result.clarity +=
-                  Number(
-                    itemEvaluation.clarity
-                  ) || 0;
+          technical_depth_score:
+            average(
+              totals.technicalDepth
+            ),
 
-                result.technicalDepth +=
-                  Number(
-                    itemEvaluation.technicalDepth
-                  ) || 0;
+          evaluations:
+            updatedEvaluations,
+        };
 
-                return result;
-              },
-              {
-                score: 0,
-                correctness: 0,
-                relevance: 0,
-                clarity: 0,
-                technicalDepth: 0,
-              }
-            );
+        console.log(
+          "Saving interview progress:",
+          updatePayload
+        );
 
-          const average = (value) => {
-            if (!completed) {
-              return 0;
-            }
-
-            return Number(
-              (
-                value / completed
-              ).toFixed(1)
-            );
-          };
-
-          const authUser =
-            await getAuthenticatedUser();
-
-          if (!authUser?.id) {
-            console.error(
-              "Cannot save progress: user not authenticated."
-            );
-
-            return false;
-          }
-
-          const updatePayload = {
-            completed_questions:
-              completed,
-
-            overall_score:
-              average(
-                totals.score
-              ),
-
-            correctness_score:
-              average(
-                totals.correctness
-              ),
-
-            relevance_score:
-              average(
-                totals.relevance
-              ),
-
-            clarity_score:
-              average(
-                totals.clarity
-              ),
-
-            technical_depth_score:
-              average(
-                totals.technicalDepth
-              ),
-
-            evaluations:
-              updatedEvaluations,
-          };
-
-          console.log(
-            "Saving interview progress:",
-            updatePayload
+        const {
+          error,
+        } = await supabase
+          .from("interviews")
+          .update(updatePayload)
+          .eq(
+            "id",
+            currentInterviewId
+          )
+          .eq(
+            "user_id",
+            authUser.id
           );
 
-          const {
-            data,
-            error,
-          } = await supabase
-            .from("interviews")
-            .update(updatePayload)
-            .eq(
-              "id",
-              currentInterviewId
-            )
-            .eq(
-              "user_id",
-              authUser.id
-            )
-            .select()
-            .single();
-
-          if (error) {
-            console.error(
-              "INTERVIEW UPDATE ERROR:",
-              error
-            );
-
-            return false;
-          }
-
-          console.log(
-            "INTERVIEW PROGRESS SAVED:",
-            data
-          );
-
-          return true;
-        } catch (error) {
+        if (error) {
           console.error(
-            "Interview progress error:",
+            "INTERVIEW UPDATE ERROR:",
             error
           );
 
           return false;
         }
-      },
-      [getAuthenticatedUser]
-    );
 
+        console.log(
+          "INTERVIEW PROGRESS SAVED SUCCESSFULLY"
+        );
+
+        return true;
+      } catch (error) {
+        console.error(
+          "Interview progress error:",
+          error
+        );
+
+        return false;
+      }
+    },
+    [getAuthenticatedUser]
+  );
   /*
    * SUBMIT ANSWER
    */
