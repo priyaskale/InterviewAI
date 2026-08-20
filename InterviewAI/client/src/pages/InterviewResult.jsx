@@ -150,11 +150,89 @@ function InterviewResult() {
     return [];
   }
 
+  function getEvaluationData(item) {
+    if (!item) {
+      return {};
+    }
+
+    /*
+     * Current Interview.jsx stores:
+     *
+     * {
+     *   questionNumber,
+     *   question,
+     *   answer,
+     *   evaluation: {
+     *     score,
+     *     correctness,
+     *     relevance,
+     *     clarity,
+     *     technicalDepth,
+     *     feedback,
+     *     strengths,
+     *     improvements
+     *   }
+     * }
+     */
+
+    if (item.evaluation) {
+      return item.evaluation;
+    }
+
+    /*
+     * Compatibility with older saved formats.
+     */
+    return item;
+  }
+
+  function getOverallMessage(value) {
+    const number = Number(value);
+
+    if (!Number.isFinite(number)) {
+      return "Evaluation pending";
+    }
+
+    if (number >= 8) {
+      return "Excellent performance";
+    }
+
+    if (number >= 6) {
+      return "Good performance";
+    }
+
+    if (number >= 4) {
+      return "Fair performance";
+    }
+
+    return "Keep improving";
+  }
+
+  function getOverallAdvice(value) {
+    const number = Number(value);
+
+    if (!Number.isFinite(number)) {
+      return "Complete your interview evaluation to receive personalized feedback.";
+    }
+
+    if (number >= 8) {
+      return "Excellent work. Keep practicing to maintain this level of performance.";
+    }
+
+    if (number >= 6) {
+      return "You have a solid foundation. Focus on improving technical depth and consistency.";
+    }
+
+    return "Keep practicing the fundamentals and focus on answering each question directly.";
+  }
+
   if (isLoading) {
     return (
       <div className="result-loading">
         <div className="result-loading-spinner" />
-        <p>Loading your interview result...</p>
+
+        <p>
+          Loading your interview result...
+        </p>
       </div>
     );
   }
@@ -175,8 +253,11 @@ function InterviewResult() {
           </p>
 
           <button
+            type="button"
             className="result-primary-button"
-            onClick={() => navigate("/history")}
+            onClick={() =>
+              navigate("/history")
+            }
           >
             <ArrowLeft size={17} />
             Back to history
@@ -194,13 +275,59 @@ function InterviewResult() {
   const hasOverallScore =
     Number.isFinite(overallScore);
 
+  const completedQuestions =
+    Number(interview.completed_questions) || 0;
+
+  const totalQuestions =
+    Number(interview.question_count) || 0;
+
+  /*
+   * Build overall strengths and improvements
+   * from the actual saved AI evaluations.
+   */
+  const allStrengths = evaluations.flatMap(
+    (item) => {
+      const evaluation =
+        getEvaluationData(item);
+
+      return Array.isArray(
+        evaluation?.strengths
+      )
+        ? evaluation.strengths
+        : [];
+    }
+  );
+
+  const allImprovements = evaluations.flatMap(
+    (item) => {
+      const evaluation =
+        getEvaluationData(item);
+
+      return Array.isArray(
+        evaluation?.improvements
+      )
+        ? evaluation.improvements
+        : [];
+    }
+  );
+
+  const uniqueStrengths = [
+    ...new Set(allStrengths),
+  ].slice(0, 5);
+
+  const uniqueImprovements = [
+    ...new Set(allImprovements),
+  ].slice(0, 5);
+
   return (
     <div className="result-page">
       <header className="result-topbar">
         <button
           type="button"
           className="result-back-button"
-          onClick={() => navigate("/history")}
+          onClick={() =>
+            navigate("/history")
+          }
         >
           <ArrowLeft size={18} />
           History
@@ -211,13 +338,16 @@ function InterviewResult() {
             <Sparkles size={17} />
           </div>
 
-          <span>InterviewAI</span>
+          <span>
+            InterviewAI
+          </span>
         </div>
 
         <div />
       </header>
 
       <main className="result-main">
+        {/* HEADER */}
         <div className="result-heading">
           <span className="result-eyebrow">
             INTERVIEW RESULT
@@ -261,23 +391,19 @@ function InterviewResult() {
             </span>
 
             <h2>
-              {hasOverallScore
-                ? overallScore >= 8
-                  ? "Excellent performance"
-                  : overallScore >= 6
-                    ? "Good performance"
-                    : "Keep improving"
-                : "Evaluation pending"}
+              {getOverallMessage(
+                overallScore
+              )}
             </h2>
 
             <p>
               You completed{" "}
               <strong>
-                {interview.completed_questions || 0}
+                {completedQuestions}
               </strong>{" "}
               of{" "}
               <strong>
-                {interview.question_count || 0}
+                {totalQuestions}
               </strong>{" "}
               questions.
             </p>
@@ -390,14 +516,18 @@ function InterviewResult() {
               </h3>
 
               <p>
-                Question-level feedback will appear
-                here when evaluation data is available.
+                Question-level feedback will
+                appear here when evaluation
+                data is available.
               </p>
             </div>
           ) : (
             <div className="result-evaluation-list">
               {evaluations.map(
-                (evaluation, index) => {
+                (item, index) => {
+                  const evaluation =
+                    getEvaluationData(item);
+
                   const evaluationScore =
                     Number(
                       evaluation?.score ??
@@ -410,55 +540,210 @@ function InterviewResult() {
                     ) &&
                     evaluationScore >= 6;
 
+                  const questionNumber =
+                    Number(
+                      item?.questionNumber
+                    ) || index + 1;
+
                   return (
-                    <div
+                    <article
                       className="result-evaluation-card"
                       key={
-                        evaluation?.id ||
-                        index
+                        item?.id ||
+                        `${questionNumber}-${index}`
                       }
                     >
-                      <div className="result-question-number">
-                        {index + 1}
+                      {/* QUESTION HEADER */}
+                      <div className="result-question-header">
+                        <div className="result-question-number">
+                          {questionNumber}
+                        </div>
+
+                        <div className="result-evaluation-content">
+                          <h3>
+                            {item?.question ||
+                              `Question ${
+                                questionNumber
+                              }`}
+                          </h3>
+
+                          <div
+                            className={`result-evaluation-score ${
+                              passed
+                                ? "positive"
+                                : "needs-work"
+                            }`}
+                          >
+                            {passed ? (
+                              <CheckCircle2
+                                size={16}
+                              />
+                            ) : (
+                              <XCircle
+                                size={16}
+                              />
+                            )}
+
+                            <strong>
+                              {Number.isFinite(
+                                evaluationScore
+                              )
+                                ? evaluationScore.toFixed(
+                                    1
+                                  )
+                                : "—"}
+                            </strong>
+
+                            <span>
+                              /10
+                            </span>
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="result-evaluation-content">
-                        <h3>
-                          {evaluation?.question ||
-                            `Question ${index + 1}`}
-                        </h3>
+                      {/* ANSWER */}
+                      {item?.answer && (
+                        <div className="result-detail-section">
+                          <h4>
+                            Your answer
+                          </h4>
 
-                        <p>
-                          {evaluation?.feedback ||
-                            evaluation?.explanation ||
-                            "Evaluation details are available for this question."}
-                        </p>
+                          <p>
+                            {item.answer}
+                          </p>
+                        </div>
+                      )}
+
+                      {/* METRICS */}
+                      <div className="result-detail-metrics">
+                        <div className="result-detail-metric">
+                          <span>
+                            Correctness
+                          </span>
+
+                          <strong>
+                            {score(
+                              evaluation?.correctness
+                            )}
+                            /10
+                          </strong>
+                        </div>
+
+                        <div className="result-detail-metric">
+                          <span>
+                            Relevance
+                          </span>
+
+                          <strong>
+                            {score(
+                              evaluation?.relevance
+                            )}
+                            /10
+                          </strong>
+                        </div>
+
+                        <div className="result-detail-metric">
+                          <span>
+                            Clarity
+                          </span>
+
+                          <strong>
+                            {score(
+                              evaluation?.clarity
+                            )}
+                            /10
+                          </strong>
+                        </div>
+
+                        <div className="result-detail-metric">
+                          <span>
+                            Technical depth
+                          </span>
+
+                          <strong>
+                            {score(
+                              evaluation?.technicalDepth
+                            )}
+                            /10
+                          </strong>
+                        </div>
                       </div>
 
-                      <div
-                        className={`result-evaluation-score ${
-                          passed
-                            ? "positive"
-                            : "needs-work"
-                        }`}
-                      >
-                        {passed ? (
-                          <CheckCircle2 size={16} />
-                        ) : (
-                          <XCircle size={16} />
+                      {/* FEEDBACK */}
+                      {evaluation?.feedback && (
+                        <div className="result-detail-section">
+                          <h4>
+                            Feedback
+                          </h4>
+
+                          <p>
+                            {
+                              evaluation.feedback
+                            }
+                          </p>
+                        </div>
+                      )}
+
+                      {/* STRENGTHS */}
+                      {Array.isArray(
+                        evaluation?.strengths
+                      ) &&
+                        evaluation.strengths.length >
+                          0 && (
+                          <div className="result-detail-section">
+                            <h4>
+                              Strengths
+                            </h4>
+
+                            <ul>
+                              {evaluation.strengths.map(
+                                (
+                                  strength,
+                                  strengthIndex
+                                ) => (
+                                  <li
+                                    key={
+                                      strengthIndex
+                                    }
+                                  >
+                                    {strength}
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </div>
                         )}
 
-                        <strong>
-                          {Number.isFinite(
-                            evaluationScore
-                          )
-                            ? evaluationScore.toFixed(
-                                1
-                              )
-                            : "—"}
-                        </strong>
-                      </div>
-                    </div>
+                      {/* IMPROVEMENTS */}
+                      {Array.isArray(
+                        evaluation?.improvements
+                      ) &&
+                        evaluation.improvements
+                          .length > 0 && (
+                          <div className="result-detail-section">
+                            <h4>
+                              Areas to improve
+                            </h4>
+
+                            <ul>
+                              {evaluation.improvements.map(
+                                (
+                                  improvement,
+                                  improvementIndex
+                                ) => (
+                                  <li
+                                    key={
+                                      improvementIndex
+                                    }
+                                  >
+                                    {improvement}
+                                  </li>
+                                )
+                              )}
+                            </ul>
+                          </div>
+                        )}
+                    </article>
                   );
                 }
               )}
@@ -466,7 +751,7 @@ function InterviewResult() {
           )}
         </section>
 
-        {/* FEEDBACK */}
+        {/* AI INSIGHTS */}
         <section className="result-section">
           <div className="result-section-heading">
             <div>
@@ -483,6 +768,7 @@ function InterviewResult() {
           </div>
 
           <div className="result-insight-grid">
+            {/* STRENGTHS */}
             <div className="result-insight-card">
               <div className="result-insight-icon">
                 <CheckCircle2 size={19} />
@@ -492,13 +778,33 @@ function InterviewResult() {
                 Strengths
               </h3>
 
-              <p>
-                Continue practicing the areas where
-                you demonstrated strong knowledge and
-                clear communication.
-              </p>
+              {uniqueStrengths.length >
+              0 ? (
+                <ul>
+                  {uniqueStrengths.map(
+                    (
+                      strength,
+                      index
+                    ) => (
+                      <li
+                        key={index}
+                      >
+                        {strength}
+                      </li>
+                    )
+                  )}
+                </ul>
+              ) : (
+                <p>
+                  Continue practicing the
+                  areas where you demonstrate
+                  strong knowledge and clear
+                  communication.
+                </p>
+              )}
             </div>
 
+            {/* IMPROVEMENTS */}
             <div className="result-insight-card">
               <div className="result-insight-icon">
                 <TrendingUp size={19} />
@@ -508,13 +814,34 @@ function InterviewResult() {
                 Areas to improve
               </h3>
 
-              <p>
-                Review questions where your score was
-                lower and practice explaining your
-                answers with more technical depth.
-              </p>
+              {uniqueImprovements.length >
+              0 ? (
+                <ul>
+                  {uniqueImprovements.map(
+                    (
+                      improvement,
+                      index
+                    ) => (
+                      <li
+                        key={index}
+                      >
+                        {improvement}
+                      </li>
+                    )
+                  )}
+                </ul>
+              ) : (
+                <p>
+                  Review questions where
+                  your score was lower and
+                  practice explaining your
+                  answers with more technical
+                  depth.
+                </p>
+              )}
             </div>
 
+            {/* NEXT STEPS */}
             <div className="result-insight-card">
               <div className="result-insight-icon">
                 <Lightbulb size={19} />
@@ -525,19 +852,22 @@ function InterviewResult() {
               </h3>
 
               <p>
-                Keep practicing consistently and
-                compare your future results to track
-                your progress.
+                {getOverallAdvice(
+                  overallScore
+                )}
               </p>
             </div>
           </div>
         </section>
 
+        {/* ACTIONS */}
         <div className="result-actions">
           <button
             type="button"
             className="result-secondary-button"
-            onClick={() => navigate("/history")}
+            onClick={() =>
+              navigate("/history")
+            }
           >
             <ArrowLeft size={17} />
             Back to history
