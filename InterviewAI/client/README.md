@@ -56,8 +56,8 @@ OpenRouter-compatible AI model support
 
 ## 📁 Project Structure
 
-InterviewAI/
-└── InterviewAI/
+*InterviewAI/
+└── *InterviewAI/
     ├── client/
     │   ├── src/
     │   ├── public/
