@@ -85,13 +85,13 @@ cd InterviewAI/InterviewAI
 
 ## 3. Install dependencies
 
-# For the client:
+### For the client:
 
 cd client
 
 npm install
 
-# For the server:
+### For the server:
 
 cd ../server
 
@@ -107,13 +107,13 @@ Do not commit private API keys or secrets to GitHub.
 
 ## ▶️ Run the Application
 
-# Start the backend server:
+### Start the backend server:
 
 cd server
 
 npm run dev
 
-# Then start the frontend in another terminal:
+### Then start the frontend in another terminal:
 
 cd client
 
@@ -212,4 +212,5 @@ Enhanced UI/UX
 ## 👩‍💻 Author
 
 Priya Kale
+
 GitHub: https://github.com/priyaskale
