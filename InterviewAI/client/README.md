@@ -18,25 +18,39 @@ Review interview history
 ## 🛠️ Tech Stack
 
 ## Frontend
+
 React
+
 Vite
+
 JavaScript
+
 CSS
+
 React Router
+
 Lucide React
+
 Web Speech API
 
 ## Backend
+
 Node.js
+
 Express.js
+
 REST API
 
 ## Database & Authentication
+
 Supabase
+
 Supabase Authentication
+
 Supabase Database
 
 ## AI
+
 AI provider integration through the backend
 OpenRouter-compatible AI model support
 
@@ -70,14 +84,17 @@ git clone https://github.com/priyaskale/InterviewAI.git
 cd InterviewAI/InterviewAI
 
 ## 3. Install dependencies
+
 # For the client:
 
 cd client
+
 npm install
 
 # For the server:
 
 cd ../server
+
 npm install
 
 ## 4. Configure environment variables
@@ -93,11 +110,13 @@ Do not commit private API keys or secrets to GitHub.
 # Start the backend server:
 
 cd server
+
 npm run dev
 
 # Then start the frontend in another terminal:
 
 cd client
+
 npm run dev
 
 Open the local URL provided by Vite in your browser.
@@ -107,10 +126,15 @@ Open the local URL provided by Vite in your browser.
 InterviewAI uses Supabase for:
 
 User authentication
+
 User data
+
 Interview records
+
 Interview evaluations
+
 Interview history
+
 Score storage
 
 The application connects to the Supabase project using environment variables configured locally.
@@ -120,11 +144,17 @@ The application connects to the Supabase project using environment variables con
 The AI system is designed to support:
 
 Interview question generation
+
 Answer evaluation
+
 Correctness scoring
+
 Relevance scoring
+
 Clarity scoring
+
 Technical-depth scoring
+
 Overall interview performance
 
 ## 🎯 Interview Configuration
@@ -132,17 +162,25 @@ Overall interview performance
 Users can configure interviews based on:
 
 Job role
+
 Experience level
+
 Interview type
+
 Difficulty
+
 Number of questions
+
 Interview mode
 
 Example job roles include:
 
 Frontend Developer
+
 Backend Developer
+
 Full Stack Developer
+
 Data Analyst
 
 ## 📌 Current Status
@@ -154,13 +192,21 @@ InterviewAI is currently maintained as a local development project.
 Possible future improvements include:
 
 Improved AI interview conversations
+
 Better voice interview support
+
 Advanced performance analytics
+
 Resume-based interview generation
+
 More interview categories
+
 Improved interview history
+
 Personalized preparation plans
+
 Production deployment
+
 Enhanced UI/UX
 
 ## 👩‍💻 Author
