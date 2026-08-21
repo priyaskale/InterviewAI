@@ -61,28 +61,18 @@ InterviewAI/
 └── InterviewAI/
 
     ├── client/
-    
-    │   ├── src/
-    
+    │   ├── src/ 
     │   ├── public/
-    
     │   ├── package.json
-    
     │   └── ...
     │
     ├── server/
-    
     │   ├── routes/
-    
     │   ├── services/
-    
     │   ├── index.js
-    
     │   └── ...
     │
     ├── .env.example
-
-    
     └── README.md
 
 ## ⚙️ Running the Project Locally
