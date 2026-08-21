@@ -56,21 +56,33 @@ OpenRouter-compatible AI model support
 
 ## 📁 Project Structure
 
-*InterviewAI/
-└── *InterviewAI/
+InterviewAI/
+
+└── InterviewAI/
+
     ├── client/
+    
     │   ├── src/
+    
     │   ├── public/
+    
     │   ├── package.json
+    
     │   └── ...
     │
     ├── server/
+    
     │   ├── routes/
+    
     │   ├── services/
+    
     │   ├── index.js
+    
     │   └── ...
     │
     ├── .env.example
+
+    
     └── README.md
 
 ## ⚙️ Running the Project Locally
